@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>jQuery과제</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    section { margin-bottom: 40px; }
+    .delete-btn {
+      margin-left: 10px;
+      background: crimson;
+      color: white;
+      border: none;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+    li {
+      margin: 5px 0;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 과제 2: 문장 보이기/숨기기 -->
+  <section>
+    <button id="hideBtn">숨기기</button>
+    <button id="showBtn">보이기</button>
+    <p id="text">Hello, jQuery!</p>
+  </section>
+
+  <!-- 과제 3: 클릭 & 더블클릭 -->
+  <section>
+    <p id="myPara">더블클릭하거나 클릭해보세요</p>
+  </section>
+
+  <!-- 과제 4 & 6: 할 일 리스트 + 삭제 -->
+  <section>
+    <input id="todoInput" placeholder="할 일을 입력하세요" />
+    <button id="addBtn">추가</button>
+    <ul id="todoList"></ul>
+  </section>
+
+  <!-- 과제 5: fadeToggle 이미지 -->
+  <section>
+    <button id="fadeBtn">이미지 토글</button><br><br>
+    <img id="myImg" src="https://via.placeholder.com/150" alt="샘플 이미지" />
+  </section>
+
+  <script>
+    // 과제 2: 텍스트 숨기기 / 보이기
+    $('#hideBtn').click(function() {
+      $('#text').hide();
+    });
+
+    $('#showBtn').click(function() {
+      $('#text').show();
+    });
+
+    // 과제 3: 클릭 시 파란색, 더블클릭 시 빨간색
+    $('#myPara').on('click', function() {
+      $(this).css('color', 'blue');
+    });
+
+    $('#myPara').on('dblclick', function() {
+      $(this).css('color', 'red');
+    });
+
+    // 과제 4 & 6: 할 일 추가 + 삭제 버튼
+    $('#addBtn').click(function() {
+      const task = $('#todoInput').val().trim();
+
+      if (task === '') {
+        alert('할 일을 입력하세요!');
+        return;
+      }
+
+      const $li = $('<li></li>').text(task);
+      const $deleteBtn = $('<button class="delete-btn">삭제</button>');
+
+      // 삭제 버튼 클릭 시 항목 삭제
+      $deleteBtn.click(function(e) {
+        e.stopPropagation(); // li 클릭과 겹치지 않게 방지
+        $(this).parent().remove();
+      });
+
+      $li.append($deleteBtn);
+      $('#todoList').append($li);
+      $('#todoInput').val('');
+    });
+
+    // 항목 자체 클릭 시 삭제
+    $('#todoList').on('click', 'li', function(e) {
+      if (!$(e.target).hasClass('delete-btn')) {
+        $(this).remove();
+      }
+    });
+
+    // 과제 5: 이미지 토글
+    $('#fadeBtn').click(function() {
+      $('#myImg').fadeToggle();
+    });
+  </script>
+
+</body>
+</html>
